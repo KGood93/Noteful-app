@@ -1,14 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import React, {Component} from 'react';
+import {Route, Link} from 'react-router-dom';
 import NoteListNav from './NoteListNav/NoteListNav';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageMain from './NotePageMain/NotePageMain';
-import ApiContext from './ApiContext';
-import config from './config';
+import dummyStore from './dummy-store';
+import ApiConext from './ApiContext'
+import config from './config'
+import {getNotesForFolder, findNote, findFolder} from './notes-helpers';
 import './App.css';
 
-class App extends React.Component {
+class App extends Component {
     state = {
         notes: [],
         folders: []
@@ -16,13 +18,13 @@ class App extends React.Component {
 
     componentDidMount() {
         Promise.all([
-            fetch(`${config.API_ENDPOINT}/notes`),
+            fetch(`${config.API_ENDPOINT}/ntoes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
             .then(([notesRes, foldersRes]) => {
-                if (!notesRes.ok)
+                if(!notesRes.ok)
                     return notesRes.json().then(e => Promise.reject(e));
-                if (!foldersRes.ok)
+                if(!foldersRes.ok)
                     return foldersRes.json().then(e => Promise.reject(e));
 
                 return Promise.all([notesRes.json(), foldersRes.json()]);
@@ -70,7 +72,10 @@ class App extends React.Component {
                         component={NoteListMain}
                     />
                 ))}
-                <Route path="/note/:noteId" component={NotePageMain} />
+                <Route
+                    path="/note/:noteId"
+                    component={NotePageMain}
+                />
             </>
         );
     }
@@ -81,20 +86,19 @@ class App extends React.Component {
             folders: this.state.folders,
             deleteNote: this.handleDeleteNote
         };
+
         return (
-            <Router>
-            <ApiContext.Provider value={value}>
-                <div className="App">
+            <ApiConext.Provider value={value}>
+            <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
-                    <header className="App__header">
-                        <h1>
-                            <Link to="/">Noteful</Link>{' '}
-                        </h1>
-                    </header>
-                    <main className="App__main">{this.renderMainRoutes()}</main>
-                </div>
-            </ApiContext.Provider>
-            </Router>
+                <header className="App__header">
+                    <h1>
+                        <Link to="/">Noteful</Link>{' '}
+                    </h1>
+                </header>
+                <main className="App__main">{this.renderMainRoutes()}</main>
+            </div>
+            </ApiConext.Provider>
         );
     }
 }
