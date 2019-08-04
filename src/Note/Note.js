@@ -47,7 +47,7 @@ class Note extends React.Component {
       </h2>
       <button className='Note__delete' type='button' onClick={this.handleClickDelete}>
         {' '}
-        remove
+        Remove
       </button>
       <div className='Note__dates'>
         <div className='Note__dates-modified'>

@@ -7,20 +7,58 @@ import config from '../config'
 class AddNote extends React.Component {
     static contextType = ApiContext;
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: {
+                value: '',
+                touched: false
+            },
+            content: {
+                value: '',
+                touched: false
+            },
+            folderId: {
+                value: '',
+                touched: false
+            }
+       }
+    }
+
     static defaultProps = {
         history: {
             push: () => {}
         }
     }
+
+    updateName(noteName) {
+        this.setState({name: {value: noteName, touched: true}});
+    }
+
+    updateContent(noteContent) {
+        this.setState({content: {value: noteContent, touched: true}});
+    }
+
+    updateFolder(folderSelect) {
+        this.setState({folderId: {value: folderSelect, touched: true}});
+    }
     
     handleSubmit = event => {
         event.preventDefault();
+        const { name, content, folderId } = this.state;
+
+        console.log("Name:", name.value);
+        console.log("Content:", content.value);
+        console.log("FolderId:", folderId.value);
+
         const note = {
-            name: event.target['noteName'].value,
-            content: event.target['noteContent'].value,
-            folder: event.target['folderSelect'].value
+            name: name.value,
+            content: content.value,
+            folderId: folderId.value,
+            modified: new Date()
         }
         console.log('Note: ', note);
+        //console.log(note.folderId);
 
         fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'POST',
@@ -35,12 +73,28 @@ class AddNote extends React.Component {
            })
            .then(note => {
                this.context.addNote(note)
-               this.props.history.push(`/folder/${note.folder}`)
+               this.props.history.push(`/notes/${note.folderId}`)
            })
            .catch(error => {
                console.error({ error })
            })
     }
+
+    //Validate Name is not left blank
+    //validateName(fieldValue) {
+        //const name = this.state.name.value.trim();
+        //if (name.validateName === 0) {
+            //return 'Name is required';
+        //}
+    //}
+    
+    //Validate Folder Selected
+    //validateFolder() {
+        //const folder = this.state.folderId.value.trim();
+        //if (folder.length === 0) {
+            //return 'Please Select Folder';
+        //}
+    //}
     
     render() {
         const { folders=[] } = this.context;
@@ -54,18 +108,26 @@ class AddNote extends React.Component {
                         type="text"
                         className="Note__control"
                         name="noteName"
-                        id="noteName" />
+                        id="noteName"
+                        onChange={e => this.updateName(e.target.value)} 
+                        />
                 </div>
                 <div className="Note-content">
                     <label htmlFor="NoteContent">Content</label>
                     <textarea 
                         name="noteContent"
-                        id="noteContent">
+                        id="noteContent"
+                        onChange={e => this.updateContent(e.target.value)}
+                        >
                     </textarea>
                 </div>
                 <div className="folder-Select">
                     <label htmlFor="SelectFolder">Select Folder</label>
-                    <select name="folderSelect" id="folderSelect">
+                    <select 
+                        name="folderSelect" 
+                        id="folderSelect" 
+                        onChange={e => this.updateFolder(e.target.value)}
+                        >
                         <option value={null}>...</option>
                         {folders.map(folder => 
                             <option key={folder.id} value={folder.id}>{folder.name}</option>
@@ -73,7 +135,13 @@ class AddNote extends React.Component {
                     </select>
                 </div>
                 <div className="addition_button">
-                    <button type="submit">
+                    <button 
+                        type="submit"
+                        //disabled={
+                            //this.validateName() ||
+                            //this.validateFolder()
+                        //}
+                        >
                         Add Note
                     </button>
                 </div>

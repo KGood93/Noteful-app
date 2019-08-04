@@ -31,12 +31,12 @@ class NoteListMain extends React.Component {
           </li>
         )}
       </ul>
-      <div className='NoteListMain__button-container'>
+      <div className='NoteListMain_ButtonContainer'>
         <AddButton
           tag={Link}
           to='/add-note'
           type='button'
-          className='NoteListMain__add-note-button'
+          className='NoteListMain_AddNoteButton'
         >
           <br />
           Add Note

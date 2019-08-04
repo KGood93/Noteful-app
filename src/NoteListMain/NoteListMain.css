@@ -10,7 +10,7 @@
   }
   
   .NoteListMain_AddNoteButton {
-    margin: 0 auto 20px;
+    margin: 0 auto 20 5px;
   }
   .NoteListMain_AddNoteButton:hover {
     background-color: #29862e;
