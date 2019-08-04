@@ -23,7 +23,7 @@ class AddNote extends React.Component {
         console.log('Note: ', note);
 
         fetch(`${config.API_ENDPOINT}/notes`, {
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(note)
            })
@@ -34,7 +34,7 @@ class AddNote extends React.Component {
                return res.json()
            })
            .then(note => {
-               this.context.AddNote(note)
+               this.context.addNote(note)
                this.props.history.push(`/folder/${note.folder}`)
            })
            .catch(error => {

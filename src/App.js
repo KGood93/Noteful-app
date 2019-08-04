@@ -21,13 +21,13 @@ class App extends Component {
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
-            .then(([notesRes, foldersRes]) => {
-                if(!notesRes.ok)
-                    return notesRes.json().then(e => Promise.reject(e));
-                if(!foldersRes.ok)
-                    return foldersRes.json().then(e => Promise.reject(e));
+            .then(([notesResults, foldersResults]) => {
+                if(!notesResults.ok)
+                    return notesResults.json().then(e => Promise.reject(e));
+                if(!foldersResults.ok)
+                    return foldersResults.json().then(e => Promise.reject(e));
 
-                return Promise.all([notesRes.json(), foldersRes.json()]);
+                return Promise.all([notesResults.json(), foldersResults.json()]);
             })
             .then(([notes, folders]) => {
                 this.setState({notes, folders});
@@ -110,7 +110,8 @@ class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            AddFolder: this.handleAddFolder,
+            addFolder: this.handleAddFolder,
+            addNote: this.handleAddNote,
             deleteNote: this.handleDeleteNote
         };
 
