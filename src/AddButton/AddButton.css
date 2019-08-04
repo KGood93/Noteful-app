@@ -7,16 +7,14 @@
     font-size: 12px;
     font-weight: bold;
     height: 60px;
-    padding: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
     text-align: center;
     text-decoration: none;
     width: 60px;
   }
   
-  a.AddButton {
-    padding: 16px 8px 8px;
-  }
-  
   .AddButton:hover {
     cursor: pointer;
+    background-color: goldenrod;
   }

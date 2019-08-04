@@ -39,7 +39,7 @@ class NoteListMain extends React.Component {
           className='NoteListMain__add-note-button'
         >
           <br />
-          Note
+          Add Note
         </AddButton>
       </div>
     </section>

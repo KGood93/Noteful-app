@@ -4,11 +4,11 @@ import NoteListNav from './NoteListNav/NoteListNav';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageMain from './NotePageMain/NotePageMain';
-import dummyStore from './dummy-store';
-import ApiConext from './ApiContext'
-import config from './config'
-import {getNotesForFolder, findNote, findFolder} from './notes-helpers';
+import ApiConext from './ApiContext';
+import config from './config';
 import './App.css';
+import AddFolder from './AddFolder/AddFolder';
+import AddNote from './AddNote/AddNote';
 
 class App extends Component {
     state = {
@@ -18,7 +18,7 @@ class App extends Component {
 
     componentDidMount() {
         Promise.all([
-            fetch(`${config.API_ENDPOINT}/ntoes`),
+            fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
             .then(([notesRes, foldersRes]) => {
@@ -35,6 +35,24 @@ class App extends Component {
             .catch(error => {
                 console.error({error});
             });
+    }
+
+    handleAddFolder = folder =>  {
+        this.setState({
+            folders: [
+                ...this.state.folders,
+                folder
+            ]
+        })
+    }
+
+    handleAddNote = note => {
+        this.setState({
+            notes: [
+                ...this.state.notes,
+                note
+            ]
+        })
     }
 
     handleDeleteNote = noteId => {
@@ -76,6 +94,14 @@ class App extends Component {
                     path="/note/:noteId"
                     component={NotePageMain}
                 />
+                <Route 
+                    path="/add-folder"
+                    component={AddFolder}
+                />
+                <Route 
+                    path="/add-note"
+                    component={AddNote}
+                />
             </>
         );
     }
@@ -84,6 +110,7 @@ class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
+            AddFolder: this.handleAddFolder,
             deleteNote: this.handleDeleteNote
         };
 
