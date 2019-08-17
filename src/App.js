@@ -4,7 +4,7 @@ import NoteListNav from './NoteListNav/NoteListNav';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageMain from './NotePageMain/NotePageMain';
-import ApiConext from './ApiContext';
+import ApiContext from './ApiContext';
 import config from './config';
 import './App.css';
 import AddFolder from './AddFolder/AddFolder';
@@ -116,7 +116,7 @@ class App extends Component {
         };
 
         return (
-            <ApiConext.Provider value={value}>
+            <ApiContext.Provider value={value}>
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
                 <header className="App__header">
@@ -126,7 +126,7 @@ class App extends Component {
                 </header>
                 <main className="App__main">{this.renderMainRoutes()}</main>
             </div>
-            </ApiConext.Provider>
+            </ApiContext.Provider>
         );
     }
 }

@@ -3,9 +3,20 @@ import './AddFolder.css'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import ValidationError from '../ValidationError/validationError';
 
 class AddFolder extends React.Component {
     static contextType = ApiContext;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: {
+                value: '',
+                touched: false
+            }
+        }
+    }
 
     static defaultProps = {
         history: {
@@ -13,12 +24,21 @@ class AddFolder extends React.Component {
         }
     }
     
+    updateName(folderName) {
+        this.setState({name: {value: folderName, touched: true}})
+    }
+
     handleSubmit = event => {
         event.preventDefault();
+        const {name} = this.state;
+        
+        console.log('Name: ', name.value);
+
         const folderName = {
-            name: event.target['FolderName'].value
+            name: name.value
         }
-        console.log('Name: ', folderName);
+
+        console.log("folder Name: ", folderName)
 
         fetch(`${config.API_ENDPOINT}/folders`, {
             method: 'POST',
@@ -40,7 +60,15 @@ class AddFolder extends React.Component {
            })
     }
     
+    validateName() {
+        const name = this.state.name.value.trim();
+        if(name.length === 0) {
+            return 'Folder Name Required'
+        }
+    }
+
     render() {
+        const nameError = this.validateName();
         return (
             <section className='AddFolder'>
             <h2>Add Folder</h2>
@@ -51,10 +79,18 @@ class AddFolder extends React.Component {
                         type="text"
                         className="folder__control"
                         name="FolderName"
-                        id="FolderName" />
+                        id="FolderName" 
+                        onChange={e => this.updateName(e.target.value)}
+                        />
+                        {this.state.name.touched && <ValidationError message={nameError} />}
                 </div>
                 <div className="addition_button">
-                    <button type="submit">
+                    <button
+                        type="submit"
+                        disabled={
+                            this.validateName()
+                        }
+                    >
                         Add Folder
                     </button>
                 </div>

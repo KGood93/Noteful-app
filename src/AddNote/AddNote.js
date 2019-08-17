@@ -3,6 +3,7 @@ import './AddNote.css'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import ValidationError from '../ValidationError/validationError'
 
 class AddNote extends React.Component {
     static contextType = ApiContext;
@@ -58,7 +59,6 @@ class AddNote extends React.Component {
             modified: new Date()
         }
         console.log('Note: ', note);
-        //console.log(note.folderId);
 
         fetch(`${config.API_ENDPOINT}/notes`, {
             method: 'POST',
@@ -81,23 +81,26 @@ class AddNote extends React.Component {
     }
 
     //Validate Name is not left blank
-    //validateName(fieldValue) {
-        //const name = this.state.name.value.trim();
-        //if (name.validateName === 0) {
-            //return 'Name is required';
-        //}
-    //}
+    validateName() {
+        const name = this.state.name.value.trim();
+        if (name.length === 0) {
+            return "Name is Required"
+        }
+    }
     
     //Validate Folder Selected
-    //validateFolder() {
-        //const folder = this.state.folderId.value.trim();
-        //if (folder.length === 0) {
-            //return 'Please Select Folder';
-        //}
-    //}
+    validateFolder() {
+        const folder = this.state.folderId.value.trim();
+        if (folder.value === 'null') {
+            return "Please Select Folder"
+        }
+    }
     
     render() {
         const { folders=[] } = this.context;
+        const nameError = this.validateName();
+        const folderError = this.validateFolder();
+
         return (
             <section className='AddNote'>
             <h2>Add Note</h2>
@@ -109,8 +112,9 @@ class AddNote extends React.Component {
                         className="Note__control"
                         name="noteName"
                         id="noteName"
-                        onChange={e => this.updateName(e.target.value)} 
+                        onChange={e => this.updateName(e.target.value)}
                         />
+                        {this.state.name.touched && <ValidationError message={nameError} />}
                 </div>
                 <div className="Note-content">
                     <label htmlFor="NoteContent">Content</label>
@@ -128,19 +132,20 @@ class AddNote extends React.Component {
                         id="folderSelect" 
                         onChange={e => this.updateFolder(e.target.value)}
                         >
-                        <option value={null}>...</option>
+                        <option value={'null'}>...</option>
                         {folders.map(folder => 
                             <option key={folder.id} value={folder.id}>{folder.name}</option>
                         )}
                     </select>
+                    {this.state.folderId.touched && <ValidationError message={folderError} />}
                 </div>
                 <div className="addition_button">
                     <button 
                         type="submit"
-                        //disabled={
-                            //this.validateName() ||
-                            //this.validateFolder()
-                        //}
+                        disabled={
+                            this.validateName() || 
+                            this.validateFolder()
+                        }
                         >
                         Add Note
                     </button>
