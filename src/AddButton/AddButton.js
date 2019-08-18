@@ -1,5 +1,6 @@
 import React from 'react'
 import './AddButton.css'
+import PropTypes from 'prop-types'
 
 function AddButton(props) {
   const { tag, className, children, ...otherProps } = props
@@ -13,6 +14,10 @@ function AddButton(props) {
     props.children
   )
 }
+
+AddButton.propTypes = {
+  tag: PropTypes.string
+};
 
 AddButton.defaultProps ={
   tag: 'a',
