@@ -14,15 +14,15 @@ class NotePageNav extends React.Component {
     const folder = findFolder(folders, note.folderId)
     return (
     <div className='NotePageNav'>
-        <button
+      <button
         onClick={() => this.props.history.goBack()}
-        className='NotePageNav__back-button'
+        className='NotePageNav_back-button'
       >
         <br />
         Back
       </button>
       {folder && (
-        <h3 className='NotePageNav__folder-name'>
+        <h3 className='NotePageNav_folder-name'>
           {folder.name}
         </h3>
       )}
