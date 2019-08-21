@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom'
 import { format } from 'date-fns'
 import ApiContext from '../ApiContext'
 import config from '../config'
+import PropTypes from 'prop-types'
 import './Note.css'
 
 class Note extends React.Component {
-  static defaultProps = {
-    onDeleteNote: () => {},
-  }
-
   static contextType = ApiContext;
 
   handleClickDelete = e => {
@@ -61,6 +58,17 @@ class Note extends React.Component {
     </div>
   )
     }
+}
+
+Note.defaultProps = {
+  onDeleteNote: () => {},
+}
+
+Note.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string, 
+  modified: PropTypes.string,
+  onDeleteNote: PropTypes.func
 }
 
 export default Note

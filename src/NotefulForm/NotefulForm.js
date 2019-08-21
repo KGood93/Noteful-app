@@ -15,7 +15,7 @@ function NotefulForm(props) {
 
 NotefulForm.propTypes = {
    className: PropTypes.string,
-   action: PropTypes.string.isRequired
+   onSubmit: PropTypes.func
 };
 
 export default NotefulForm

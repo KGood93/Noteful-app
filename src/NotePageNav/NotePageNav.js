@@ -1,18 +1,10 @@
 import React from 'react'
-import AddButton from '../AddButton/AddButton'
 import ApiContext from '../ApiContext'
 import { findNote, findFolder } from '../notes-helpers'
 import './NotePageNav.css'
+import PropTypes from 'prop-types'
 
 class NotePageNav extends React.Component {
-  static defaultProps = {
-    history: {
-      goBack: () => { }
-    },
-    match: {
-      params: {}
-    }
-  }
   static contextType = ApiContext;
 
   render() {
@@ -22,15 +14,13 @@ class NotePageNav extends React.Component {
     const folder = findFolder(folders, note.folderId)
     return (
     <div className='NotePageNav'>
-      <AddButton
-        tag='button'
-        role='link'
+        <button
         onClick={() => this.props.history.goBack()}
         className='NotePageNav__back-button'
       >
         <br />
         Back
-      </AddButton>
+      </button>
       {folder && (
         <h3 className='NotePageNav__folder-name'>
           {folder.name}
@@ -43,8 +33,20 @@ class NotePageNav extends React.Component {
 
 NotePageNav.defaultProps = {
   history: {
-    goBack: () => {}
+    goBack: () => { }
+  },
+  match: {
+    params: {}
   }
+}
+
+NotePageNav.propTypes = {
+  history: PropTypes.shape({
+    goBack: PropTypes.func
+  }),
+  match: PropTypes.shape({
+    params: PropTypes.object
+  })
 }
 
 export default NotePageNav

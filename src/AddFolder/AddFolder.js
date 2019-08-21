@@ -3,7 +3,8 @@ import './AddFolder.css'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import config from '../config'
-import ValidationError from '../ValidationError/validationError';
+import ValidationError from '../ValidationError/validationError'
+import PropTypes from 'prop-types'
 
 class AddFolder extends React.Component {
     static contextType = ApiContext;
@@ -15,12 +16,6 @@ class AddFolder extends React.Component {
                 value: '',
                 touched: false
             }
-        }
-    }
-
-    static defaultProps = {
-        history: {
-            push: () => {}
         }
     }
     
@@ -98,6 +93,18 @@ class AddFolder extends React.Component {
             </section>
         )
     }
+}
+
+AddFolder.defaultProps = {
+    history: {
+        push: () => {}
+    }
+}
+
+AddFolder.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func
+    })
 }
 
 export default AddFolder

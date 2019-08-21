@@ -5,14 +5,10 @@ import AddButton from '../AddButton/AddButton'
 import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import './NoteListMain.css'
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary'
+import PropTypes from 'prop-types'
 
 class NoteListMain extends React.Component {
-  static defaultProps = {
-    match: {
-      params: {}
-    }
-  }
   static contextType = ApiContext
   
   render() {
@@ -51,7 +47,15 @@ class NoteListMain extends React.Component {
 }
 
 NoteListMain.defaultProps = {
-  notes: [],
+  match: {
+    params: {}
+  }
+}
+
+NoteListMain.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.object
+  })
 }
 
 export default NoteListMain
