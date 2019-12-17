@@ -21,16 +21,16 @@ class App extends Component {
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
-            .then(([notesResults, foldersResults]) => {
+            .then(([notesResults], [foldersResults]) => {
                 if(!notesResults.ok)
                     return notesResults.json().then(e => Promise.reject(e));
                 if(!foldersResults.ok)
                     return foldersResults.json().then(e => Promise.reject(e));
 
-                return Promise.all([notesResults.json(), foldersResults.json()]);
+                return Promise.all([notesResults.json()], [foldersResults.json()]);
             })
-            .then(([notes, folders]) => {
-                this.setState({notes, folders});
+            .then(([notes], [folders]) => {
+                this.setState({notes}, {folders});
             })
             .catch(error => {
                 console.error({error});
@@ -64,7 +64,7 @@ class App extends Component {
     renderNavRoutes() {
         return (
             <>
-                {['/', '/folder/:folderId'].map(path => (
+                {['/', '/folders/:folderId'].map(path => (
                     <Route
                         exact
                         key={path}
@@ -76,6 +76,14 @@ class App extends Component {
                 <Route path="/add-folder" component={NotePageNav} />
                 <Route path="/add-note" component={NotePageNav} />
                 <Route path="/notes/:folderId" component={NoteListNav} />
+                <Route
+                    path="/folders"
+                    component={NoteListNav}
+                />
+                <Route
+                    path="/notes"
+                    component={NoteListNav}
+                />
             </>
         );
     }
@@ -107,6 +115,7 @@ class App extends Component {
                     path="/notes/:folderId"
                     component={NoteListMain}
                 />
+
             </>
         );
     }
