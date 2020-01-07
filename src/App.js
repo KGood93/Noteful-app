@@ -108,7 +108,7 @@ class App extends Component {
         })
         .then(() => {
             this.setState({
-                notes: this.state.notes.filter(note.id !== noteId)
+                notes: this.state.notes.filter(note => note.id !== noteId)
             })
         })
         .catch(error => {
