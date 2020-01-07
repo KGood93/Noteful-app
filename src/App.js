@@ -96,9 +96,24 @@ class App extends Component {
     }
 
     handleDeleteNote = noteId => {
-        this.setState({
-            notes: this.state.notes.filter(note => note.id !== noteId)
-        });
+        fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+            method: "DELETE"
+        })
+        .then(res => {
+            if(!res.ok) {
+                return res.json().then(error => {
+                    throw error;
+                })
+            }
+        })
+        .then(() => {
+            this.setState({
+                notes: this.state.notes.filter(note.id !== noteId)
+            })
+        })
+        .catch(error => {
+            console.error(error)
+        })
     };
 
     renderNavRoutes() {
