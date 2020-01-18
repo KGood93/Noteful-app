@@ -135,10 +135,7 @@ class App extends Component {
                     path="/folders"
                     component={NoteListNav}
                 />
-                <Route
-                    path="/notes"
-                    component={NoteListNav}
-                />
+
             </>
         );
     }

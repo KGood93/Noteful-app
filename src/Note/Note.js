@@ -38,7 +38,7 @@ class Note extends React.Component {
     return (
     <div className='Note'>
       <h2 className='Note__title'>
-        <Link to={`/note/${id}`}>
+        <Link to={`/notes/${id}`}>
           {name}
         </Link>
       </h2>
